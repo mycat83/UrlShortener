@@ -18,7 +18,6 @@ import com.yangjs.urlshortener.model.ShortUrl;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping(value = "/api")
 @Api(value = "HelloController", description = "헬로 에이피아이")
 public class UrlShortenerApiController {
 	

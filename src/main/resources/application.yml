@@ -1,9 +1,12 @@
-baseurl: http://localhost:8080/shorturl/
+server:
+  port: 80
+   
+baseurl: http://localhost/
 tokenlength: 8
 
 api:
-  shorturl: http://localhost:8080/api/shorturl/{token}
-  shorturllist: http://localhost:8080/api/shorturl
+  shorturl: http://localhost/shorturl/{token}
+  shorturllist: http://localhost/shorturl
 
 aws:
   accessKeyId: AKIA4BEH4VL5TAQ2DCFD

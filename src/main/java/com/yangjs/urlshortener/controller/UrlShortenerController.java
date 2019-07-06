@@ -20,7 +20,7 @@ public class UrlShortenerController {
 	@Autowired
 	private UrlShortenerService urlShortenerService;
 	
-	@RequestMapping(value = "/shorturl", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView shortUrlList() {
 		ModelAndView mav = new ModelAndView();
 
@@ -31,7 +31,7 @@ public class UrlShortenerController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/shorturl/{token}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{token}", method = RequestMethod.GET)
 	public RedirectView redirectUrl(@PathVariable("token") String token) {
 		String redirectUrl = urlShortenerService.getShortUrl(token);
 		RedirectView redirectView = new RedirectView(redirectUrl);
