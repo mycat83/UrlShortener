@@ -1,0 +1,13 @@
+baseurl: http://localhost:8080/shorturl/
+tokenlength: 8
+
+api:
+  shorturl: http://localhost:8080/api/shorturl/{token}
+  shorturllist: http://localhost:8080/api/shorturl
+
+aws:
+  accessKeyId: AKIA4BEH4VL5TAQ2DCFD
+  secretAccessKey: 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
+  region: us-east-1
+  dynamodb:
+    endpoint: dynamodb.us-east-1.amazonaws.com

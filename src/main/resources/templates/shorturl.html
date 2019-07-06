@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	
+	<title>URL Shortener</title>
+</head>
+
+<body>
+	<h1>단축 URL 생성</h1>
+	   
+	<div class="row">
+		<div class="col-9">
+			<input type="text" class="form-control" id="url" placeholder="단축할 URL을 입력하세요">
+		</div>
+		<div class="col-3">
+			<button type="button" class="btn btn-primary mb-3" id="save">생성</button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-12" id="result">
+		</div>
+	</div>
+	
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Token</th>
+				<th>Origin URL</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="shortUrl : ${list}">
+				<td th:text="${shortUrl.token}"></td>
+				<td th:text="${shortUrl.url}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" type="text/javascript"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+    $("#save").click(function(event) {
+
+        if ($("#url").val() === "") {
+            alert("URL을 입력해주세요!!")
+            return;
+        }
+        
+        $.ajax({
+            method: "POST",
+            url: "http://localhost:8080/api/shorturl",
+            data: $("#url").val(),
+            contentType: "text/plain",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("status: ", jqXHR.status);
+                console.error("statusText: ", jqXHR.statusText);
+                console.error("responseText: ", jqXHR.responseText);
+                
+                $("#result").html("단축 URL 생성이 실패하였습니다.");
+            },
+            success: function(result) {
+            	const html = `
+					<table class="table">
+						<tbody>
+							<tr>
+								<th><font color="blue">${result.data.duplYn === true ? "존재하는 URL" : "신규 생성 완료"}</font></th>
+								<th>Token</th>
+								<td>${result.data.token}</td>
+								<th>Origin URL</th>
+								<td>${result.data.url}</td>
+								<th>Short URL</th>
+								<td><a href="${result.data.shortUrl}" target="_blank">${result.data.shortUrl}</a></td>
+							</tr>
+						</tbody>
+					</table>`;
+					
+            	$("#result").html(html);
+            }
+        });
+    });
+	</script>
+	
+</body>
+</html>
