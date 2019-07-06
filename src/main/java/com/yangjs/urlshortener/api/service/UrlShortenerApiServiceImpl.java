@@ -70,7 +70,7 @@ public class UrlShortenerApiServiceImpl implements UrlShortenerApiService {
 	public void delelteShortUrl(String token) {
 		ShortUrl shortUrl = new ShortUrl();
 		
-		shortUrl.setToken("test");
+		shortUrl.setToken(token);
 
 		urlShortenerApiDAO.deleteShortUrl(shortUrl);
 	}

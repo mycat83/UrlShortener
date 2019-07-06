@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,10 @@ import com.yangjs.urlshortener.model.ResponseMessage;
 import com.yangjs.urlshortener.model.ShortUrl;
 
 import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 @Api(value = "HelloController", description = "헬로 에이피아이")
 public class UrlShortenerApiController {
 	
@@ -45,9 +48,9 @@ public class UrlShortenerApiController {
 	}
 
 	@RequestMapping(value = "/shorturl", method = RequestMethod.POST)
-	public ResponseEntity<ResponseMessage> setShortUrl(@RequestBody String url) {
+	public ResponseEntity<ResponseMessage> setShortUrl(@RequestBody ShortUrl shortUrl) {
 		
-		ShortUrl shortUrl = urlShortenerApiService.saveShortUrl(url);
+		shortUrl = urlShortenerApiService.saveShortUrl(shortUrl.getUrl());
 		
 		ResponseMessage message = new ResponseMessage("success", "", shortUrl); 
 		
@@ -62,4 +65,10 @@ public class UrlShortenerApiController {
 		
 		return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
 	}
+
+    @ExceptionHandler(value=Exception.class)
+    public String handleDemoException(Exception e) {
+        log.error(e.getMessage());
+        return "/error/error";
+    }
 }

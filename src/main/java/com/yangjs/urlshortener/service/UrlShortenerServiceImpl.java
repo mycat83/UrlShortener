@@ -16,19 +16,20 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 	@Value("${api.shorturl}")
 	private String apiShortUrl;
 
-	@Value("${api.shorturllist}")
-	private String apiShortUrlList;
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public String getShortUrl(String token) {
 		RestTemplate restTemplate = new RestTemplate();
 		
-		ResponseEntity<ResponseMessage> responseEntity = restTemplate.getForEntity(apiShortUrl, ResponseMessage.class, token);
+		ResponseEntity<ResponseMessage> responseEntity = restTemplate.getForEntity(apiShortUrl + "/'" + token, ResponseMessage.class);
 		ResponseMessage responseMessage = responseEntity.getBody();
-		Map<String, Object> shortUrl = (Map<String, Object>) responseMessage.getData();
+		Map<String, Object> data = (Map<String, Object>) responseMessage.getData();
+		
+		if (data == null) {
+			return null;
+		}
 				
-		return (String) shortUrl.get("url");
+		return (String) data.get("url");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -36,7 +37,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 	public List<Map<String, Object>> getShortUrlList() {
 		RestTemplate restTemplate = new RestTemplate();
 		
-		ResponseEntity<ResponseMessage> responseEntity = restTemplate.getForEntity(apiShortUrlList, ResponseMessage.class);
+		ResponseEntity<ResponseMessage> responseEntity = restTemplate.getForEntity(apiShortUrl, ResponseMessage.class);
 		ResponseMessage responseMessage = responseEntity.getBody();
 		List<Map<String, Object>> list = (List<Map<String, Object>>) responseMessage.getData();
 				

@@ -5,8 +5,7 @@ baseurl: http://localhost/
 tokenlength: 8
 
 api:
-  shorturl: http://localhost/shorturl/{token}
-  shorturllist: http://localhost/shorturl
+  shorturl: http://localhost/shorturl
 
 aws:
   accessKeyId: AKIA4BEH4VL5TAQ2DCFD

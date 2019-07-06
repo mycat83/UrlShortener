@@ -12,36 +12,56 @@
 </head>
 
 <body>
-	<h1>단축 URL 생성</h1>
+	<div class="row mt-3">
+		<div class="col-12 text-center">
+			<h1>단축 URL 생성</h1>
+		</div>
+	</div>
 	   
-	<div class="row">
-		<div class="col-9">
+	<div class="row mt-3">
+		<div class="col-2">
+		</div>
+		<div class="col-7">
 			<input type="text" class="form-control" id="url" placeholder="단축할 URL을 입력하세요">
 		</div>
-		<div class="col-3">
+		<div class="col-2">
 			<button type="button" class="btn btn-primary mb-3" id="save">생성</button>
 		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-12" id="result">
+		<div class="col-1">
 		</div>
 	</div>
 	
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Token</th>
-				<th>Origin URL</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="shortUrl : ${list}">
-				<td th:text="${shortUrl.token}"></td>
-				<td th:text="${shortUrl.url}"></td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="row mt-3">
+		<div class="col-1">
+		</div>
+		<div class="col-10" id="result">
+		</div>
+		<div class="col-1">
+		</div>
+	</div>
+	
+	<div class="row mt-3">
+		<div class="col-1">
+		</div>
+		<div class="col-10">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th>Token</th>
+						<th>Origin URL</th>
+					</tr>
+				</thead>
+				<tbody class="table-striped" id="list">
+					<tr th:each="shortUrl : ${list}">
+						<td th:text="${shortUrl.token}"></td>
+						<td th:text="${shortUrl.url}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-1">
+		</div>
+	</div>
 	
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -51,7 +71,6 @@
 	<script type="text/javascript">
 
     $("#save").click(function(event) {
-
         if ($("#url").val() === "") {
             alert("URL을 입력해주세요!!")
             return;
@@ -59,19 +78,14 @@
         
         $.ajax({
             method: "POST",
-            url: "http://localhost:8080/api/shorturl",
-            data: $("#url").val(),
-            contentType: "text/plain",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("status: ", jqXHR.status);
-                console.error("statusText: ", jqXHR.statusText);
-                console.error("responseText: ", jqXHR.responseText);
-                
-                $("#result").html("단축 URL 생성이 실패하였습니다.");
-            },
+            url: "[[${apiShortUrl}]]",
+            data: JSON.stringify({
+                url: $("#url").val()
+            }),
+            contentType: 'application/json',
             success: function(result) {
-            	const html = `
-					<table class="table">
+            	const htmlResult = `
+					<table class="table table-bordered">
 						<tbody>
 							<tr>
 								<th><font color="blue">${result.data.duplYn === true ? "존재하는 URL" : "신규 생성 완료"}</font></th>
@@ -85,8 +99,27 @@
 						</tbody>
 					</table>`;
 					
-            	$("#result").html(html);
-            }
+            	$("#result").html(htmlResult);
+
+            	if (result.data.duplYn === false) {
+	            	const htmlList = `
+	        			<tr>
+	        				<td>${result.data.token}</td>
+	        				<td>${result.data.url}</td>
+	        			</tr>`;
+						
+	            	$("#list").append(htmlList);
+            	}
+            	
+            	$("#url").val("");
+            },
+	        error: function (jqXHR, textStatus, errorThrown) {
+	            console.error("status: ", jqXHR.status);
+	            console.error("statusText: ", jqXHR.statusText);
+	            console.error("responseText: ", jqXHR.responseText);
+	            
+	            $("#result").html("단축 URL 생성이 실패하였습니다.");
+	        }
         });
     });
 	</script>
