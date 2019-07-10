@@ -14,8 +14,8 @@ Java 1.8 + Spring Boot 2.1.6.RELEASE + DynamoDB
 ## Package 구조
 > Front와 Api를 한개의 프로젝트에 구현하고 Package로 구분함
 
-com.yangjs.urlshortener.*: Front Package  
-com.yangjs.urlshortener.api.*: Api Package
+Front: com.yangjs.urlshortener.*
+Api: com.yangjs.urlshortener.api.*
 
 
 ## 개발의도
