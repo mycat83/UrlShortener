@@ -1,9 +1,12 @@
+#front용 설정
 server:
-  port: 8080
+  port: 80
    
 baseurl: http://localhost/
 tokenlength: 8
 
+
+# api용 설정 
 api:
   shorturl: http://localhost/shorturl
 

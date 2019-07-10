@@ -21,7 +21,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 	public String getShortUrl(String token) {
 		RestTemplate restTemplate = new RestTemplate();
 		
-		ResponseEntity<ResponseMessage> responseEntity = restTemplate.getForEntity(apiShortUrl + "/'" + token, ResponseMessage.class);
+		ResponseEntity<ResponseMessage> responseEntity = restTemplate.getForEntity(apiShortUrl + "/" + token, ResponseMessage.class);
 		ResponseMessage responseMessage = responseEntity.getBody();
 		Map<String, Object> data = (Map<String, Object>) responseMessage.getData();
 		

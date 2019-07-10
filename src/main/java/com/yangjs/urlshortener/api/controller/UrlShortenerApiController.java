@@ -16,12 +16,9 @@ import com.yangjs.urlshortener.api.service.UrlShortenerApiService;
 import com.yangjs.urlshortener.model.ResponseMessage;
 import com.yangjs.urlshortener.model.ShortUrl;
 
-import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@Slf4j
-@Api(value = "HelloController", description = "헬로 에이피아이")
 public class UrlShortenerApiController {
 	
 	@Autowired
