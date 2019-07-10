@@ -31,11 +31,11 @@ mvn package
 
 
 ## 실행방법
-### Java 웹어플리케이션 실행
+#### Java 웹어플리케이션 실행
 ```
 java -jar bin/UrlShortener-0.0.1-SNAPSHOT.jar
 ```
 
-### 웹어플리케이션 접속
+#### 웹어플리케이션 접속
 메인 페이지: http://localhost/  
 단축URL redirect 요청: http://localhost/{key}
