@@ -19,6 +19,7 @@ import com.yangjs.urlshortener.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class UrlShortenerController {
 	
 	@Value("${baseurl}")
